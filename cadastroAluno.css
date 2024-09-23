@@ -11,23 +11,30 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column;
 }
 
 .container {
     background-color: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 450px;
 }
 
-h2 {
+.Mensagem2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-size: 19px;
 }
 
-.nomeCompleto, .email, .telefone, .endereco, .cpf, .senha {
-    margin-bottom: 15px;
+.Mensagem3 {
+    margin-bottom: 10px; 
+    font-size:17px;
+}
+
+.nomeCompleto, .Username, .email, .telefone, .endereco, .cpf, .senha {
+    margin-bottom: 15px; 
 }
 
 label {
@@ -42,19 +49,51 @@ input {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    transition: border-color 0.3s;
 }
 
-button {
+input:focus {
+    border-color: #a550af;
+    outline: none; 
+}
+
+.BotaoEnvio {
     width: 100%;
-    padding: 10px;
-    background-color: #430979;
+    padding: 12px;
+    background-color: #a550af;
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #326e00;
+.BotaoEnvio:hover {
+    background-color: #50afa5;
+}
+
+.teste {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.BotaoRedirecionamento {
+    background-color: #a550af;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px;
+    font-size: 16px; 
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.BotaoRedirecionamento:hover {
+    background-color: #8e3e8d;
+    transform: scale(1.05);
+}
+
+.BotaoRedirecionamento:active {
+    transform: scale(0.95); 
 }
