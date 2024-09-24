@@ -33,7 +33,7 @@ body {
     font-size:17px;
 }
 
-.nomeCompleto, .Username, .email, .telefone, .endereco, .cpf, .senha {
+.nome, .Username, .email, .telefone, .endereco, .cpf, .senha {
     margin-bottom: 15px; 
 }
 
