@@ -25,21 +25,21 @@
 
             <!-- Filtro de Disciplina -->
             <label for="disciplina">Disciplina:</label>
-            <select id="disciplina">
-                <option>Selecione uma disciplina</option>
-                <!-- Outras opções... -->
-            </select>
-
-            <!-- Filtro de Conteúdo -->
-            <label for="conteudo">Conteúdo:</label>
-            <select id="conteudo">
-                <option>Selecione o conteúdo</option>
-                <!-- Outras opções... -->
+            <select id="disciplina" required>
+                <option value="">Selecione uma disciplina</option>
+                <option value="teste">teste</option>
             </select>
 
             <!-- Filtro de Localidade -->
             <label for="localidade">Localidade:</label>
             <input type="text" id="localidade" placeholder="Digite sua cidade">
+            <input type="checkbox" id="aulaOnline" name="aulaOnline"> Aula Online
+
+            <!-- Filtro de Conteúdo -->
+            <label for="conteudo">Conteúdo:</label>
+            <select id="conteudo">
+                <option>Selecione o conteúdo</option>
+            </select>
 
             <!-- Filtro de Preço -->
             <label for="preco-min">Preço Mínimo:</label>
@@ -68,7 +68,10 @@
             <input type="text" id="horario-fim" placeholder="23:59">
 
             <!-- Botão Filtrar -->
-            <button class="btn-filtrar">Filtrar</button>
+            <button class="btn-filtrar" onclick="validarCampos()">Filtrar</button>
+
+            <!-- Mensagem de erro customizada -->
+            <div id="error-message" style="display:none; color:red; margin-top: 15px;"></div>
         </aside>
 
         <!-- Lista de Professores (Lado Direito) -->
@@ -90,8 +93,10 @@
                     <p>Disponibilidade: Sábado e Domingo</p>
                 </div>
             </div>
-            <!-- Outros cards... -->
         </section>
     </div>
+
+    <!-- Link para o arquivo JavaScript da página de catálogo -->
+    <script src="paginaCatalogo.js"></script>
 </body>
 </html>
