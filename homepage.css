@@ -56,7 +56,6 @@ header {
 
 /* Mensagem de boas-vindas */
 .intro {
-    margin-top: 100px; /* Ajusta a posição abaixo do cabeçalho fixo */
     margin-bottom: 40px;
 }
 

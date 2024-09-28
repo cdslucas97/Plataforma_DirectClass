@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - DirectClass</title>
+    <link rel="stylesheet" href="paginaCatalogo.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">DirectClass</div>
+        <a href="login.html" class="login-btn">Login</a>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="catalog-container">
+        <!-- Filtros (Lado Esquerdo) -->
+        <aside class="filter-sidebar">
+            <h3>Filtros</h3>
+
+            <!-- Filtro de Disciplina -->
+            <label for="disciplina">Disciplina:</label>
+            <select id="disciplina">
+                <option>Selecione uma disciplina</option>
+                <!-- Outras opções... -->
+            </select>
+
+            <!-- Filtro de Conteúdo -->
+            <label for="conteudo">Conteúdo:</label>
+            <select id="conteudo">
+                <option>Selecione o conteúdo</option>
+                <!-- Outras opções... -->
+            </select>
+
+            <!-- Filtro de Localidade -->
+            <label for="localidade">Localidade:</label>
+            <input type="text" id="localidade" placeholder="Digite sua cidade">
+
+            <!-- Filtro de Preço -->
+            <label for="preco-min">Preço Mínimo:</label>
+            <input type="text" id="preco-min" placeholder="R$ Mínimo">
+            
+            <label for="preco-max">Preço Máximo:</label>
+            <input type="text" id="preco-max" placeholder="R$ Máximo">
+
+            <!-- Filtro de Disponibilidade -->
+            <h4>Disponibilidade:</h4>
+            <div class="disponibilidade-checkboxes">
+                <label><input type="checkbox"> Segunda</label>
+                <label><input type="checkbox"> Terça</label>
+                <label><input type="checkbox"> Quarta</label>
+                <label><input type="checkbox"> Quinta</label>
+                <label><input type="checkbox"> Sexta</label>
+                <label><input type="checkbox"> Sábado</label>
+                <label><input type="checkbox"> Domingo</label>
+            </div>
+
+            <!-- Horários -->
+            <label for="horario-inicio">Horário Início:</label>
+            <input type="text" id="horario-inicio" placeholder="00:00">
+
+            <label for="horario-fim">Horário Fim:</label>
+            <input type="text" id="horario-fim" placeholder="23:59">
+
+            <!-- Botão Filtrar -->
+            <button class="btn-filtrar">Filtrar</button>
+        </aside>
+
+        <!-- Lista de Professores (Lado Direito) -->
+        <section class="professor-list">
+            <h2>Professores Disponíveis</h2>
+            <div class="professor-card">
+                <img src="professor1.jpg" alt="Professor Foto">
+                <div class="professor-info">
+                    <h3>Professor João</h3>
+                    <p>Preço: R$50/hora</p>
+                    <p>Disponibilidade: Segunda a Sexta</p>
+                </div>
+            </div>
+            <div class="professor-card">
+                <img src="professor2.jpg" alt="Professor Foto">
+                <div class="professor-info">
+                    <h3>Professora Maria</h3>
+                    <p>Preço: R$70/hora</p>
+                    <p>Disponibilidade: Sábado e Domingo</p>
+                </div>
+            </div>
+            <!-- Outros cards... -->
+        </section>
+    </div>
+</body>
+</html>
