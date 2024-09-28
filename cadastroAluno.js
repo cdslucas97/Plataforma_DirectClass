@@ -20,13 +20,12 @@ document.querySelector('.BotaoEnvio').addEventListener('click', () => {
     })
     .then(response => {
         if (response.ok) {
-            return response.json();
+            return response.text(); // Mudar para JSON se o PHP retornar JSON
         }
         throw new Error('Erro ao cadastrar.');
     })
     .then(data => {
         alert('Cadastro realizado com sucesso!');
-        // Aqui você pode redirecionar ou realizar outra ação
     })
     .catch(error => {
         console.error(error);
