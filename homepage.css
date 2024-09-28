@@ -1,0 +1,102 @@
+/* Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Cabeçalho */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}
+
+.logo h1 {
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.btn-login {
+    background-color: #008CBA;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.btn-login:hover {
+    background-color: #005f73;
+}
+
+/* Mensagem de boas-vindas */
+.intro {
+    margin: 40px 0;
+}
+
+.intro h2 {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+}
+
+/* Formulário de busca */
+.search-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+.btn-search {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.btn-search:hover {
+    background-color: #218838;
+}
