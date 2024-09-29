@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const localidadeInput = document.getElementById("localidade");
     const aulaOnlineCheckbox = document.getElementById("aulaOnline");
     const buscarButton = document.getElementById("buscar");
+    const errorMessage = document.getElementById("error-message"); // Referência à mensagem de erro
 
     // Função para desabilitar ou habilitar o campo de localidade
     aulaOnlineCheckbox.addEventListener("change", function () {
@@ -20,21 +21,31 @@ document.addEventListener("DOMContentLoaded", function () {
         const localidade = localidadeInput.value.trim();
         const aulaOnline = aulaOnlineCheckbox.checked;
 
+        // Reseta a mensagem de erro
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
+
         if (disciplina === "") {
-            alert("Por favor, preencha a disciplina.");
+            errorMessage.textContent = "Por favor, selecione uma disciplina.";
+            errorMessage.style.display = "block";
             event.preventDefault();  // Impede o envio do formulário
             return false;
         }
 
         if (!aulaOnline && localidade === "") {
-            alert("Por favor, preencha a localidade ou marque a opção de aula online.");
+            errorMessage.textContent = "Por favor, preencha a localidade ou marque a opção de aula online.";
+            errorMessage.style.display = "block";
             event.preventDefault();  // Impede o envio do formulário
             return false;
         }
 
         // Se tudo estiver correto, o formulário será enviado e a página será redirecionada
-        window.location.href = "paginaCatalogo.html";  // Redireciona para a página de catálogo
-        return true;
+        var url = "paginaCatalogo.php?disciplina=" + encodeURIComponent(disciplina) + 
+        "&localidade=" + encodeURIComponent(localidade) + 
+        "&aulaOnline=" + aulaOnline;
+
+        // Redireciona para a Página de Catálogo com os parâmetros da busca
+        window.location.href = url;
     }
 
     // Adiciona o evento de clique no botão Buscar

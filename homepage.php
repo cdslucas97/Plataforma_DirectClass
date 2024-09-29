@@ -1,3 +1,19 @@
+<?php
+// Configurações de conexão ao banco de dados
+$servername = "localhost";
+$username = "root"; // Usuário do MySQL (ou outro usuário que você configurou)
+$password = ""; // Senha do MySQL (geralmente vazio no XAMPP)
+$dbname = "directclass"; // Nome do banco de dados
+
+// Criando a conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificando a conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,10 +26,10 @@
     <!-- Cabeçalho -->
     <header>
         <div class="logo-button">
-            <a href="homepage.html" class="btn-logo">DirectClass</a>
+            <a href="homepage.php" class="btn-logo">DirectClass</a>
         </div>
         <div class="login-button">
-            <a href="login.html" class="btn-login">Login</a>
+            <a href="login.php" class="btn-login">Login</a>
         </div>
     </header>
 
@@ -29,7 +45,20 @@
                 <label for="disciplina">Disciplina:</label>
                 <select id="disciplina" name="disciplina" required>
                     <option value="">Selecione uma disciplina</option>
-                    <!-- Aqui as disciplinas serão preenchidas dinamicamente -->
+                    <?php
+                    // Consulta para buscar as disciplinas
+                    $sql = "SELECT IDDisciplina, Nome FROM Disciplina";
+                    $result = $conn->query($sql);
+
+                    // Verifica se há resultados e preenche o select
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row["IDDisciplina"] . "'>" . $row["Nome"] . "</option>";
+                        }
+                    } else {
+                        echo "<option value=''>Nenhuma disciplina disponível</option>";
+                    }
+                    ?>
                 </select>
             </div>
             
@@ -49,3 +78,8 @@
     <script src="homepage.js"></script>
 </body>
 </html>
+
+<?php
+// Fechar a conexão com o banco de dados
+$conn->close();
+?>
