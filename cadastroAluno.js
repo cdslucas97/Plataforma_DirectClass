@@ -1,5 +1,5 @@
 document.getElementById('formCadastro').addEventListener('submit', (event) => {
-    event.preventDefault(); // Evita o envio padrão do formulário
+    event.preventDefault();
 
     const nome = document.getElementById('nome').value;
     const username = document.getElementById('username').value;
