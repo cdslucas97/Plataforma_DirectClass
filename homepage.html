@@ -9,8 +9,8 @@
 <body>
     <!-- Cabeçalho -->
     <header>
-        <div class="logo">
-            <h1>DirectClass</h1>
+        <div class="logo-button">
+            <a href="homepage.html" class="btn-logo">DirectClass</a>
         </div>
         <div class="login-button">
             <a href="login.html" class="btn-login">Login</a>
@@ -24,7 +24,7 @@
 
     <!-- Formulário de busca -->
     <section class="search-form">
-        <form id="searchForm" action="catalogo.html" method="GET">
+        <form id="searchForm">
             <div class="form-group">
                 <label for="disciplina">Disciplina:</label>
                 <input type="text" id="disciplina" name="disciplina" placeholder="Informe a disciplina desejada" required>
@@ -36,11 +36,8 @@
                 <input type="checkbox" id="aulaOnline" name="aulaOnline"> Aula Online
             </div>
 
-            <button type="submit" class="btn-search">Buscar</button>
+            <button type="button" class="btn-search" id="buscar">Buscar</button>
         </form>
-
-        <!-- Mensagem de erro customizada -->
-        <div id="error-message" style="display:none; color:red; margin-top: 15px;"></div>
     </section>
 
     <!-- Link para o arquivo JavaScript da homepage -->

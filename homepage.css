@@ -38,8 +38,12 @@ header {
     box-sizing: border-box;
 }
 
-.logo h1 {
-    font-size: 24px;
+.btn-logo {
+    padding: 10px 20px;
+    font-size: x-large;
+    text-decoration: none;
+    color: #28a745;
+    font-weight: bold;
     margin-left: 20px;
 }
 
@@ -56,7 +60,6 @@ header {
 .btn-login:hover {
     background-color: #005f73;
 }
-
 
 /* Mensagem de boas-vindas */
 .intro {

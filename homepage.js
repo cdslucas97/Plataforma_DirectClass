@@ -1,38 +1,44 @@
-// Função para habilitar/desabilitar o campo de localidade ao marcar o checkbox
-function toggleLocalidadeHomepage() {
-    var checkbox = document.getElementById("aulaOnline");
-    var localidadeField = document.getElementById("localidade");
-    if (checkbox.checked) {
-        localidadeField.disabled = true;
-        localidadeField.value = ""; // Limpa o campo quando aula online é marcada
-    } else {
-        localidadeField.disabled = false;
+document.addEventListener("DOMContentLoaded", function () {
+    const disciplinaInput = document.getElementById("disciplina");
+    const localidadeInput = document.getElementById("localidade");
+    const aulaOnlineCheckbox = document.getElementById("aulaOnline");
+    const buscarButton = document.getElementById("buscar");
+
+    // Função para desabilitar ou habilitar o campo de localidade
+    aulaOnlineCheckbox.addEventListener("change", function () {
+        if (aulaOnlineCheckbox.checked) {
+            localidadeInput.value = "";  // Limpa o campo de localidade se aula online for marcada
+            localidadeInput.disabled = true;  // Desabilita o campo de localidade
+        } else {
+            localidadeInput.disabled = false;  // Habilita o campo de localidade
+        }
+    });
+
+    // Função de validação dos campos
+    function validateForm(event) {
+        const disciplina = disciplinaInput.value.trim();
+        const localidade = localidadeInput.value.trim();
+        const aulaOnline = aulaOnlineCheckbox.checked;
+
+        if (disciplina === "") {
+            alert("Por favor, preencha a disciplina.");
+            event.preventDefault();  // Impede o envio do formulário
+            return false;
+        }
+
+        if (!aulaOnline && localidade === "") {
+            alert("Por favor, preencha a localidade ou marque a opção de aula online.");
+            event.preventDefault();  // Impede o envio do formulário
+            return false;
+        }
+
+        // Se tudo estiver correto, o formulário será enviado e a página será redirecionada
+        window.location.href = "paginaCatalogo.html";  // Redireciona para a página de catálogo
+        return true;
     }
-}
 
-// Validação para a página de homepage
-function validarFormHomepage() {
-    var disciplina = document.getElementById("disciplina").value;
-    var localidade = document.getElementById("localidade").value;
-    var aulaOnline = document.getElementById("aulaOnline").checked;
-    var errorMessage = document.getElementById("error-message");
-
-    if (!disciplina) {
-        errorMessage.innerHTML = "Por favor, preencha a disciplina.";
-        errorMessage.style.display = "block";
-        return false;
-    }
-
-    if (!aulaOnline && !localidade) {
-        errorMessage.innerHTML = "Por favor, preencha a localidade ou marque a opção de aula online.";
-        errorMessage.style.display = "block";
-        return false;
-    }
-
-    errorMessage.style.display = "none";
-    return true;
-}
-
-// Associar as funções aos eventos de formulário e checkbox
-document.getElementById("aulaOnline").addEventListener("change", toggleLocalidadeHomepage);
-document.getElementById("searchForm").onsubmit = validarFormHomepage;
+    // Adiciona o evento de clique no botão Buscar
+    buscarButton.addEventListener("click", function (event) {
+        validateForm(event);  // Executa a função de validação no clique do botão
+    });
+});
