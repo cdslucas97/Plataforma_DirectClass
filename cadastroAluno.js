@@ -1,4 +1,6 @@
-document.querySelector('.BotaoEnvio').addEventListener('click', () => {
+document.getElementById('formCadastro').addEventListener('submit', (event) => {
+    event.preventDefault(); // Evita o envio padrão do formulário
+
     const nome = document.getElementById('nome').value;
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
@@ -14,21 +16,19 @@ document.querySelector('.BotaoEnvio').addEventListener('click', () => {
     fetch('cadastroAluno.php', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({ nome, username, email, telefone, endereco, cpf, senha })
+        body: `nome=${nome}&username=${username}&email=${email}&telefone=${telefone}&endereco=${endereco}&cpf=${cpf}&senha=${senha}`
     })
-    .then(response => {
-        if (response.ok) {
-            return response.text(); // Mudar para JSON se o PHP retornar JSON
-        }
-        throw new Error('Erro ao cadastrar.');
-    })
+    .then(response => response.text())
     .then(data => {
-        alert('Cadastro realizado com sucesso!');
+        alert(data === 'success' ? 'Cadastro realizado com sucesso!' : data);
     })
     .catch(error => {
-        console.error(error);
-        alert('Erro no cadastro. Tente novamente.');
+        console.error('Erro na requisição:', error);
     });
+});
+
+document.querySelector('.BotaoRedirecionamento').addEventListener('click', () => {
+    window.location.href = 'cadastroProfessor.html';
 });
