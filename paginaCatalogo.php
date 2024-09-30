@@ -13,10 +13,32 @@ if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
 
-// Recebendo parâmetros da URL (GET)
+// Verifica se estamos carregando as disciplinas
+if (isset($_GET['loadDisciplinas']) && $_GET['loadDisciplinas'] === 'true') {
+    $disciplinas = [];
+    $sqlDisciplinas = "SELECT IDDisciplina, Nome FROM Disciplina";
+    $resultDisciplinas = $conn->query($sqlDisciplinas);
+
+    if ($resultDisciplinas->num_rows > 0) {
+        while ($row = $resultDisciplinas->fetch_assoc()) {
+            $disciplinas[] = $row;
+        }
+    }
+    
+    echo json_encode($disciplinas); // Retorna as disciplinas em formato JSON
+    $conn->close();
+    exit; // Encerra o script aqui para evitar que ele continue
+}
+
+// A partir deste ponto é a lógica de buscar professores com base nos filtros
 $disciplina = isset($_GET['disciplina']) ? $_GET['disciplina'] : '';
 $localidade = isset($_GET['localidade']) ? $_GET['localidade'] : '';
 $aulaOnline = isset($_GET['aulaOnline']) && $_GET['aulaOnline'] == 'true';
+$precoMin = isset($_GET['precoMin']) ? $_GET['precoMin'] : '';
+$precoMax = isset($_GET['precoMax']) ? $_GET['precoMax'] : '';
+$horarioInicio = isset($_GET['horarioInicio']) ? $_GET['horarioInicio'] : '';
+$horarioFim = isset($_GET['horarioFim']) ? $_GET['horarioFim'] : '';
+$diasSemana = isset($_GET['diasSemana']) ? explode(',', $_GET['diasSemana']) : [];
 
 // Montando a consulta SQL para buscar professores filtrados
 $sql = "SELECT Professor.*, Disciplina.Nome AS DisciplinaNome
@@ -25,144 +47,63 @@ $sql = "SELECT Professor.*, Disciplina.Nome AS DisciplinaNome
         JOIN Disciplina ON ProfessorDisciplina.IDDisciplina = Disciplina.IDDisciplina
         WHERE 1=1";
 
-// Filtro por Disciplina
+// Filtros
 if (!empty($disciplina)) {
     $sql .= " AND Disciplina.IDDisciplina = '$disciplina'";
 }
 
-// Filtro por Localidade (se necessário adicionar essa coluna no Professor)
 if (!empty($localidade) && !$aulaOnline) {
     $sql .= " AND Professor.Localidade = '$localidade'";
 }
 
-// Filtro por Aula Online (caso essa coluna exista na tabela Professor)
 if ($aulaOnline) {
     $sql .= " AND Professor.AulaOnline = 1";
 }
 
+if (!empty($precoMin)) {
+    $sql .= " AND Professor.PrecoHora >= '$precoMin'";
+}
+
+if (!empty($precoMax)) {
+    $sql .= " AND Professor.PrecoHora <= '$precoMax'";
+}
+
+if (!empty($horarioInicio)) {
+    $sql .= " AND Professor.HorarioInicio >= '$horarioInicio'";
+}
+
+if (!empty($horarioFim)) {
+    $sql .= " AND Professor.HorarioFim <= '$horarioFim'";
+}
+
+if (!empty($diasSemana)) {
+    $diasFiltrados = implode("', '", $diasSemana);
+    $sql .= " AND Disponibilidade.DiaSemana IN ('$diasFiltrados')";
+}
+
+// Executando a consulta
 $result = $conn->query($sql);
 
+// Buscando as disciplinas para preencher no HTML
+$disciplinas = [];
+$sqlDisciplinas = "SELECT IDDisciplina, Nome FROM Disciplina";
+$resultDisciplinas = $conn->query($sqlDisciplinas);
 
-?>
+if ($resultDisciplinas->num_rows > 0) {
+    while ($row = $resultDisciplinas->fetch_assoc()) {
+        $disciplinas[] = $row;
+    }
+}
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo - DirectClass</title>
-    <link rel="stylesheet" href="paginaCatalogo.css">
-</head>
-<body>
-    <!-- Cabeçalho -->
-    <header>
-        <div class="logo-button">
-            <a href="homepage.php" class="btn-logo">DirectClass</a>
-        </div>
-        <div class="login-button">
-            <a href="login.php" class="btn-login">Login</a>
-        </div>
-    </header>
+// Retorna o resultado como JSON para ser consumido pelo JavaScript (AJAX)
+$professores = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $professores[] = $row;
+    }
+}
+echo json_encode($professores);
 
-    <!-- Conteúdo Principal -->
-    <div class="catalog-container">
-        <!-- Filtros (Lado Esquerdo) -->
-        <aside class="filter-sidebar">
-            <h3>Filtros</h3>
-
-            <!-- Filtro de Disciplina -->
-            <label for="disciplina">Disciplina:</label>
-            <select id="disciplina" name="disciplina" required>
-                <option value="">Selecione uma disciplina</option>
-                <?php
-                // Carregar as disciplinas do banco de dados
-                $sqlDisciplinas = "SELECT * FROM Disciplina";
-                $disciplinas = $conn->query($sqlDisciplinas);
-
-                while ($row = $disciplinas->fetch_assoc()) {
-                    $selected = ($row['IDDisciplina'] == $disciplina) ? "selected" : ""; // Preenche automaticamente a disciplina selecionada
-                    echo "<option value='" . $row['IDDisciplina'] . "' $selected>" . $row['Nome'] . "</option>";
-                }
-                ?>
-            </select>
-
-            <!-- Filtro de Conteúdo -->
-            <label for="conteudo">Conteúdo:</label>
-            <select id="conteudo">
-                <option>Selecione o conteúdo</option>
-            </select>
-
-            <!-- Filtro de Localidade e Aula Online -->
-            <label for="localidade">Localidade:</label>
-            <div class="localidade-aulaonline-container">
-                <input type="text" id="localidade" name="localidade" value="<?php echo $localidade; ?>" placeholder="Informe a sua cidade">
-                <label for="aulaOnline">
-                    <input type="checkbox" id="aulaOnline" name="aulaOnline" <?php if ($aulaOnline) echo 'checked'; ?>> Aula Online
-                </label>
-            </div>
-
-            <!-- Filtro de Preço -->
-            <label for="preco-min">Preço Mínimo:</label>
-            <input type="text" id="preco-min" placeholder="R$ Mínimo">
-            
-            <label for="preco-max">Preço Máximo:</label>
-            <input type="text" id="preco-max" placeholder="R$ Máximo">
-
-            <!-- Filtro de Disponibilidade -->
-            <h4>Disponibilidade:</h4>
-            <div class="disponibilidade-checkboxes">
-                <label><input type="checkbox"> Segunda</label>
-                <label><input type="checkbox"> Terça</label>
-                <label><input type="checkbox"> Quarta</label>
-                <label><input type="checkbox"> Quinta</label>
-                <label><input type="checkbox"> Sexta</label>
-                <label><input type="checkbox"> Sábado</label>
-                <label><input type="checkbox"> Domingo</label>
-            </div>
-
-            <!-- Horários -->
-            <label for="horario-inicio">Horário Início:</label>
-            <input type="text" id="horario-inicio" placeholder="00:00">
-
-            <label for="horario-fim">Horário Fim:</label>
-            <input type="text" id="horario-fim" placeholder="23:59">
-
-            <!-- Botão Filtrar -->
-            <button class="btn-filtrar" onclick="validarCampos()">Filtrar</button>
-
-            <!-- Mensagem de erro customizada -->
-            <div id="error-message" style="display:none; color:red; margin-top: 15px;"></div>
-        </aside>
-
-        <!-- Lista de Professores (Lado Direito) -->
-        <section class="professor-list">
-            <h2>Professores Disponíveis</h2>
-            <?php
-            // Verificar se há resultados
-            if ($result->num_rows > 0) {
-                while ($professor = $result->fetch_assoc()) {
-                    echo "
-                    <a href='paginaItemCatalogo.php?professor_id={$professor['IDProfessor']}' class='professor-card'>
-                        <img src='professor.jpg' alt='Foto do Professor'>
-                        <div class='professor-info'>
-                            <h3>{$professor['Nome']}</h3>
-                            <p>Preço: R$ {$professor['PrecoHora']} / hora</p>
-                            <p>Disponibilidade: {$professor['Disponibilidade']}</p>
-                        </div>
-                    </a>";
-                }
-            } else {
-                echo "<p>Nenhum professor encontrado com esses filtros.</p>";
-            }
-            ?>
-        </section>
-    </div>
-
-    <!-- Link para o arquivo JavaScript da página de catálogo -->
-    <script src="paginaCatalogo.js"></script>
-</body>
-</html>
-
-<?php
+// Fechar a conexão
 $conn->close();
 ?>

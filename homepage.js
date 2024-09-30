@@ -3,7 +3,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const localidadeInput = document.getElementById("localidade");
     const aulaOnlineCheckbox = document.getElementById("aulaOnline");
     const buscarButton = document.getElementById("buscar");
-    const errorMessage = document.getElementById("error-message"); // Referência à mensagem de erro
+    const errorMessage = document.getElementById("error-message");
+
+    // Função para carregar as disciplinas via AJAX
+    fetch('homepage.php')
+        .then(response => response.json())
+        .then(disciplinas => {
+            disciplinas.forEach(disciplina => {
+                const option = document.createElement("option");
+                option.value = disciplina.IDDisciplina;
+                option.textContent = disciplina.Nome;
+                disciplinaInput.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Erro ao carregar disciplinas:", error));
 
     // Função para desabilitar ou habilitar o campo de localidade
     aulaOnlineCheckbox.addEventListener("change", function () {
@@ -40,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Se tudo estiver correto, o formulário será enviado e a página será redirecionada
-        var url = "paginaCatalogo.php?disciplina=" + encodeURIComponent(disciplina) + 
+        const url = "paginaCatalogo.html?disciplina=" + encodeURIComponent(disciplina) + 
         "&localidade=" + encodeURIComponent(localidade) + 
         "&aulaOnline=" + aulaOnline;
 

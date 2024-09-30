@@ -71,6 +71,12 @@ header {
     margin-top: 10px;
 }
 
+select {
+    width: 100%; /* Deixa os selects ocuparem 100% da largura disponível */
+    padding: 2px; /* Ajusta o padding interno */
+    box-sizing: border-box; /* Inclui o padding na largura total */
+}
+
 /* Estilo para Localidade e Aula Online lado a lado */
 .localidade-aulaonline-container {
     display: flex;
