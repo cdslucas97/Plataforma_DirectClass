@@ -45,27 +45,36 @@ document.addEventListener('DOMContentLoaded', function () {
         const horarioFim = horarioFimInput.value.trim();
         const aulaOnlineChecked = aulaOnlineCheckbox.checked;
 
+        // Resetando a mensagem de erro
+        errorMessage.style.display = 'none';
+        errorMessage.textContent = '';
+
+        // Validação dos campos
         if (disciplina === '') {
-            alert('Por favor, selecione uma disciplina.');
+            errorMessage.textContent = 'Por favor, selecione uma disciplina.';
+            errorMessage.style.display = 'block';
             return;
         }
         
         if (!aulaOnlineChecked && localidade === '') {
-            alert('Por favor, preencha a localidade ou marque a opção de aula online.');
+            errorMessage.textContent = 'Por favor, preencha a localidade ou marque a opção de aula online.';
+            errorMessage.style.display = 'block';
             return;
         }
         
         // Validação opcional para preço mínimo e máximo (se for obrigatório)
         if (precoMin !== '' && isNaN(precoMin)) {
-            alert('Por favor, insira um preço mínimo válido.');
+            errorMessage.textContent = 'Por favor, insira um preço mínimo válido.';
+            errorMessage.style.display = 'block';
             return;
         }
         
         if (precoMax !== '' && isNaN(precoMax)) {
-            alert('Por favor, insira um preço máximo válido.');
+            errorMessage.textContent = 'Por favor, insira um preço máximo válido.';
+            errorMessage.style.display = 'block';
             return;
         }        
-
+        
         let diasSelecionados = [];
         diasCheckboxes.forEach(function (checkbox) {
             if (checkbox.checked) {

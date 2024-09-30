@@ -29,9 +29,6 @@ $sql = "INSERT INTO pessoa (Nome, Username, Email, Telefone, Endereco, Cpf, Senh
 
 $stmt = $conn->prepare($sql);
 
-$cargo = 'aluno';
-$stmt->bind_param("ssssssss", $nome, $username, $email, $telefone, $endereco, $cpf, $senha, $cargo);
-
 if ($stmt->execute()) {
     echo "Cadastro realizado com sucesso!";
 } else {

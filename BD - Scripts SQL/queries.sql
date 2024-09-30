@@ -1,1 +1,3 @@
 USE directclass;
+
+-- DESCRIBE Disciplina;
