@@ -71,6 +71,22 @@ header {
     margin-top: 10px;
 }
 
+/* Estilo para Localidade e Aula Online lado a lado */
+.localidade-aulaonline-container {
+    display: flex;
+    align-items: center;
+    margin-top: 0px;
+}
+
+.localidade-aulaonline-container input[type="text"] {
+    flex-grow: 1; /* Faz com que o campo de localidade ocupe mais espaço */
+    margin-right: 10px; /* Espaço entre localidade e checkbox */
+}
+
+.localidade-aulaonline-container label {
+    margin: 0; /* Remove margens extras do checkbox */
+}
+
 #preco-min, #preco-max {
     width: 110px;
     margin-right: 5px;
@@ -81,9 +97,15 @@ header {
     margin-right: 5px;
 }
 
+h4 {
+    margin-bottom: 5px; /* Ajuste esse valor para controlar a distância */
+}
+
 .disponibilidade-checkboxes {
     display: flex;
     flex-wrap: wrap;
+    margin-top: 0px; /* Remove qualquer espaçamento acima dos checkboxes */
+    padding-top: 0px; /* Remove qualquer preenchimento extra */
 }
 
 .disponibilidade-checkboxes label {
@@ -103,12 +125,19 @@ header {
 }
 
 .professor-card {
+    display: flex;
+    align-items: center;
     background-color: white;
     padding: 15px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
+    text-decoration: none; /* Remove sublinhado do link */
+    color: inherit; /* Garante que o texto do link herde a cor normal */
+}
+
+.professor-card:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
 }
 
 .professor-card img {

@@ -98,6 +98,14 @@ header {
     border-radius: 5px;
 }
 
+/* Define a largura para o select e o input para serem do mesmo tamanho */
+select, input[type="text"] {
+    width: 100%; /* Faz com que ambos ocupem toda a largura disponível */
+    padding: 10px; /* Adiciona um espaçamento interno (opcional) */
+    box-sizing: border-box; /* Garante que o padding e a largura sejam contabilizados corretamente */
+    font-size: 16px; /* Ajusta o tamanho da fonte para manter a consistência */
+}
+
 .form-group input[type="checkbox"] {
     margin-left: 5px;
 }

@@ -72,28 +72,34 @@ $result = $conn->query($sql);
 
             <!-- Filtro de Disciplina -->
             <label for="disciplina">Disciplina:</label>
-            <select id="disciplina" required>
+            <select id="disciplina" name="disciplina" required>
                 <option value="">Selecione uma disciplina</option>
                 <?php
-                // Carregar as disciplinas do banco de dados dinamicamente
+                // Carregar as disciplinas do banco de dados
                 $sqlDisciplinas = "SELECT * FROM Disciplina";
                 $disciplinas = $conn->query($sqlDisciplinas);
+
                 while ($row = $disciplinas->fetch_assoc()) {
-                    echo "<option value='" . $row['IDDisciplina'] . "'>" . $row['Nome'] . "</option>";
+                    $selected = ($row['IDDisciplina'] == $disciplina) ? "selected" : ""; // Preenche automaticamente a disciplina selecionada
+                    echo "<option value='" . $row['IDDisciplina'] . "' $selected>" . $row['Nome'] . "</option>";
                 }
                 ?>
             </select>
-
-            <!-- Filtro de Localidade -->
-            <label for="localidade">Localidade:</label>
-            <input type="text" id="localidade" placeholder="Digite sua cidade">
-            <input type="checkbox" id="aulaOnline" name="aulaOnline"> Aula Online
 
             <!-- Filtro de Conteúdo -->
             <label for="conteudo">Conteúdo:</label>
             <select id="conteudo">
                 <option>Selecione o conteúdo</option>
             </select>
+
+            <!-- Filtro de Localidade e Aula Online -->
+            <label for="localidade">Localidade:</label>
+            <div class="localidade-aulaonline-container">
+                <input type="text" id="localidade" name="localidade" value="<?php echo $localidade; ?>" placeholder="Informe a sua cidade">
+                <label for="aulaOnline">
+                    <input type="checkbox" id="aulaOnline" name="aulaOnline" <?php if ($aulaOnline) echo 'checked'; ?>> Aula Online
+                </label>
+            </div>
 
             <!-- Filtro de Preço -->
             <label for="preco-min">Preço Mínimo:</label>
@@ -136,14 +142,14 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($professor = $result->fetch_assoc()) {
                     echo "
-                    <div class='professor-card'>
+                    <a href='paginaItemCatalogo.php?professor_id={$professor['IDProfessor']}' class='professor-card'>
                         <img src='professor.jpg' alt='Foto do Professor'>
                         <div class='professor-info'>
                             <h3>{$professor['Nome']}</h3>
                             <p>Preço: R$ {$professor['PrecoHora']} / hora</p>
                             <p>Disponibilidade: {$professor['Disponibilidade']}</p>
                         </div>
-                    </div>";
+                    </a>";
                 }
             } else {
                 echo "<p>Nenhum professor encontrado com esses filtros.</p>";
