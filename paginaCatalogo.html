@@ -19,21 +19,14 @@
 
     <!-- Conteúdo Principal -->
     <div class="catalog-container">
-        <!-- Filtros (Lado Esquerdo) -->
         <aside class="filter-sidebar">
             <h3>Filtros</h3>
 
             <!-- Filtro de Disciplina -->
             <label for="disciplina">Disciplina:</label>
-            <select id="disciplina" required>
+            <select id="disciplina" name="disciplina" required>
                 <option value="">Selecione uma disciplina</option>
-                <option value="teste">teste</option>
             </select>
-
-            <!-- Filtro de Localidade -->
-            <label for="localidade">Localidade:</label>
-            <input type="text" id="localidade" placeholder="Digite sua cidade">
-            <input type="checkbox" id="aulaOnline" name="aulaOnline"> Aula Online
 
             <!-- Filtro de Conteúdo -->
             <label for="conteudo">Conteúdo:</label>
@@ -41,62 +34,55 @@
                 <option>Selecione o conteúdo</option>
             </select>
 
+            <!-- Filtro de Localidade e Aula Online -->
+            <label for="localidade">Localidade:</label>
+            <div class="localidade-aulaonline-container">
+                <input type="text" id="localidade" name="localidade" placeholder="Informe a sua cidade">
+                <label for="aulaOnline">
+                    <input type="checkbox" id="aulaOnline" name="aulaOnline"> Aula Online
+                </label>
+            </div>
+
             <!-- Filtro de Preço -->
             <label for="preco-min">Preço Mínimo:</label>
-            <input type="text" id="preco-min" placeholder="R$ Mínimo">
+            <input type="text" id="preco-min" name="precoMin" placeholder="R$ Mínimo">
             
             <label for="preco-max">Preço Máximo:</label>
-            <input type="text" id="preco-max" placeholder="R$ Máximo">
+            <input type="text" id="preco-max" name="precoMax" placeholder="R$ Máximo">
 
             <!-- Filtro de Disponibilidade -->
             <h4>Disponibilidade:</h4>
             <div class="disponibilidade-checkboxes">
-                <label><input type="checkbox"> Segunda</label>
-                <label><input type="checkbox"> Terça</label>
-                <label><input type="checkbox"> Quarta</label>
-                <label><input type="checkbox"> Quinta</label>
-                <label><input type="checkbox"> Sexta</label>
-                <label><input type="checkbox"> Sábado</label>
-                <label><input type="checkbox"> Domingo</label>
+                <label><input type="checkbox" value="Segunda"> Segunda</label>
+                <label><input type="checkbox" value="Terça"> Terça</label>
+                <label><input type="checkbox" value="Quarta"> Quarta</label>
+                <label><input type="checkbox" value="Quinta"> Quinta</label>
+                <label><input type="checkbox" value="Sexta"> Sexta</label>
+                <label><input type="checkbox" value="Sábado"> Sábado</label>
+                <label><input type="checkbox" value="Domingo"> Domingo</label>
             </div>
 
             <!-- Horários -->
             <label for="horario-inicio">Horário Início:</label>
-            <input type="text" id="horario-inicio" placeholder="00:00">
+            <input type="time" id="horario-inicio" name="horarioInicio">
 
             <label for="horario-fim">Horário Fim:</label>
-            <input type="text" id="horario-fim" placeholder="23:59">
+            <input type="time" id="horario-fim" name="horarioFim">
 
-            <!-- Botão Filtrar -->
-            <button class="btn-filtrar" onclick="validarCampos()">Filtrar</button>
-
-            <!-- Mensagem de erro customizada -->
-            <div id="error-message" style="display:none; color:red; margin-top: 15px;"></div>
+            <!-- Botão de Filtrar -->
+            <button type="button" class="btn-filtrar" id="filtrar">Filtrar</button>
         </aside>
 
-        <!-- Lista de Professores (Lado Direito) -->
+        <!-- Lista de Professores -->
         <section class="professor-list">
             <h2>Professores Disponíveis</h2>
-            <div class="professor-card">
-                <img src="professor1.jpg" alt="Professor Foto">
-                <div class="professor-info">
-                    <h3>Professor João</h3>
-                    <p>Preço: R$50/hora</p>
-                    <p>Disponibilidade: Segunda a Sexta</p>
-                </div>
-            </div>
-            <div class="professor-card">
-                <img src="professor2.jpg" alt="Professor Foto">
-                <div class="professor-info">
-                    <h3>Professora Maria</h3>
-                    <p>Preço: R$70/hora</p>
-                    <p>Disponibilidade: Sábado e Domingo</p>
-                </div>
+            <div id="professor-container">
+                <!-- Aqui será carregada a lista de professores via JS -->
             </div>
         </section>
     </div>
 
-    <!-- Link para o arquivo JavaScript da página de catálogo -->
+    <!-- Link para o arquivo JavaScript -->
     <script src="paginaCatalogo.js"></script>
 </body>
 </html>

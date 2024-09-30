@@ -8,21 +8,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const horarioInicioInput = document.getElementById('horario-inicio');
     const horarioFimInput = document.getElementById('horario-fim');
     const diasCheckboxes = document.querySelectorAll('.disponibilidade-checkboxes input[type="checkbox"]');
-    const errorMessage = document.getElementById('error-message');
     const filtrarButton = document.querySelector('.btn-filtrar');
+    const professorContainer = document.getElementById('professor-container');
+
+    // Carregar disciplinas ao carregar a página
+    fetch('paginaCatalogo.php?loadDisciplinas=true')
+        .then(response => response.json())
+        .then(disciplinas => {
+            disciplinas.forEach(disciplina => {
+                const option = document.createElement('option');
+                option.value = disciplina.IDDisciplina;
+                option.textContent = disciplina.Nome;
+                disciplinaSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Erro ao carregar disciplinas:', error));    
 
     // Função para habilitar/desabilitar o campo de localidade com base na seleção de aula online
     aulaOnlineCheckbox.addEventListener('change', function () {
         if (this.checked) {
-            localidadeInput.disabled = true; // Desabilita localidade
-            localidadeInput.value = ''; // Limpa o valor da localidade
+            localidadeInput.disabled = true;
+            localidadeInput.value = '';
         } else {
-            localidadeInput.disabled = false; // Habilita localidade se desmarcar aula online
+            localidadeInput.disabled = false;
         }
     });
 
-    // Função de validação dos campos antes de filtrar
-    filtrarButton.addEventListener('click', function (event) {
+    // Função de validação e filtragem
+    filtrarButton.addEventListener('click', function () {
         const disciplina = disciplinaSelect.value.trim();
         const localidade = localidadeInput.value.trim();
         const conteudo = conteudoSelect.value.trim();
@@ -32,66 +45,70 @@ document.addEventListener('DOMContentLoaded', function () {
         const horarioFim = horarioFimInput.value.trim();
         const aulaOnlineChecked = aulaOnlineCheckbox.checked;
 
-        // Verifica se a disciplina foi selecionada
         if (disciplina === '') {
-            errorMessage.textContent = "Por favor, selecione uma disciplina.";
-            errorMessage.style.display = 'block';
-            event.preventDefault(); // Impede o envio do formulário
+            alert('Por favor, selecione uma disciplina.');
             return;
         }
-
-        // Verifica se o campo de localidade foi preenchido ou se aula online foi marcada
+        
         if (!aulaOnlineChecked && localidade === '') {
-            errorMessage.textContent = "Por favor, preencha a localidade ou marque a opção de aula online.";
-            errorMessage.style.display = 'block';
-            event.preventDefault(); // Impede o envio do formulário
+            alert('Por favor, preencha a localidade ou marque a opção de aula online.');
             return;
         }
-
-        // Se tudo estiver correto, oculta a mensagem de erro e atualiza a URL
-        errorMessage.style.display = 'none';
-
-        // Construa a URL com os parâmetros de filtro
-        let url = `paginaCatalogo.php?disciplina=${encodeURIComponent(disciplina)}&localidade=${encodeURIComponent(localidade)}&aulaOnline=${aulaOnlineChecked}`;
-
-        if (conteudo !== '') {
-            url += `&conteudo=${encodeURIComponent(conteudo)}`;
+        
+        // Validação opcional para preço mínimo e máximo (se for obrigatório)
+        if (precoMin !== '' && isNaN(precoMin)) {
+            alert('Por favor, insira um preço mínimo válido.');
+            return;
         }
+        
+        if (precoMax !== '' && isNaN(precoMax)) {
+            alert('Por favor, insira um preço máximo válido.');
+            return;
+        }        
 
-        if (precoMin !== '') {
-            url += `&precoMin=${encodeURIComponent(precoMin)}`;
-        }
-
-        if (precoMax !== '') {
-            url += `&precoMax=${encodeURIComponent(precoMax)}`;
-        }
-
-        if (horarioInicio !== '') {
-            url += `&horarioInicio=${encodeURIComponent(horarioInicio)}`;
-        }
-
-        if (horarioFim !== '') {
-            url += `&horarioFim=${encodeURIComponent(horarioFim)}`;
-        }
-
-        // Adicionar dias de disponibilidade marcados à URL
-        let diasDisponiveis = [];
+        let diasSelecionados = [];
         diasCheckboxes.forEach(function (checkbox) {
             if (checkbox.checked) {
-                diasDisponiveis.push(checkbox.nextElementSibling.textContent.trim());
+                diasSelecionados.push(checkbox.value);
             }
         });
 
-        if (diasDisponiveis.length > 0) {
-            url += `&dias=${encodeURIComponent(diasDisponiveis.join(','))}`;
-        }
+        const filtros = {
+            disciplina: disciplina,
+            localidade: localidade,
+            aulaOnline: aulaOnlineChecked,
+            precoMin: precoMin,
+            precoMax: precoMax,
+            horarioInicio: horarioInicio,
+            horarioFim: horarioFim,
+            diasSemana: diasSelecionados.join(',')
+        };
 
-        // Redireciona para a nova URL com os parâmetros
-        window.location.href = url;
+        // Enviar a requisição para o PHP com os filtros
+        fetch('paginaCatalogo.php?' + new URLSearchParams(filtros))
+            .then(response => response.json())
+            .then(data => {
+                professorContainer.innerHTML = '';  // Limpa a lista anterior
+                if (data.length > 0) {
+                    data.forEach(professor => {
+                        professorContainer.innerHTML += `
+                            <a href="paginaItemCatalogo.php?professor_id=${professor.IDProfessor}" class="professor-card">
+                                <img src="professor.jpg" alt="Foto do Professor">
+                                <div class="professor-info">
+                                    <h3>${professor.Nome}</h3>
+                                    <p>Preço: R$ ${professor.PrecoHora} / hora</p>
+                                    <p>Disponibilidade: ${professor.Disponibilidade}</p>
+                                </div>
+                            </a>
+                        `;
+                    });
+                } else {
+                    professorContainer.innerHTML = '<p>Nenhum professor encontrado com esses filtros.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar professores:', error);
+                professorContainer.innerHTML = '<p>Erro ao carregar professores. Tente novamente mais tarde.</p>';
+            });
     });
-
-    // Verifica se a página foi carregada com aula online já marcada e desabilita o campo de localidade
-    if (aulaOnlineCheckbox.checked) {
-        localidadeInput.disabled = true; // Desabilita o campo de localidade se o checkbox de aula online estiver marcado
-    }
 });
