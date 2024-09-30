@@ -2,16 +2,16 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "bddirectclass";
+$dbname = "directclass";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $email = $_POST['email'] ?? '';
 $senha = $_POST['senha'] ?? '';
 
-$sql = "SELECT * FROM pessoa WHERE Email = ? AND Senha = ?";
+$sql = "SELECT * FROM pessoa WHERE (Email = ? OR Username = ?) AND Senha = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $email, $senha);
+$stmt->bind_param("sss", $email,$email, $senha);
 $stmt->execute();
 $result = $stmt->get_result();
 

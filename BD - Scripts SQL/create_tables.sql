@@ -2,11 +2,14 @@ CREATE DATABASE IF NOT EXISTS directclass;
 USE directclass;
 
 CREATE TABLE IF NOT EXISTS Pessoa (
-    CPF VARCHAR(11) PRIMARY KEY,
+    CPF CHAR(11) PRIMARY KEY,
+    Username VARCHAR(30),
     Nome VARCHAR(100) NOT NULL,
     Telefone VARCHAR(15),
     Email VARCHAR(100),
-    Senha VARCHAR(100)
+    Senha VARCHAR(100),
+    Endereco VARCHAR(50),
+    Cargo ENUM('aluno', 'professor')
 );
 
 CREATE TABLE IF NOT EXISTS Aluno (
