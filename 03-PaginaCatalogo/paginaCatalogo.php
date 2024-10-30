@@ -2,7 +2,7 @@
 // Configurações de conexão ao banco de dados
 $servername = "localhost";
 $username = "root";
-$password = ""; // ou sua senha do banco de dados
+$password = "";
 $dbname = "directclass";
 
 // Criando a conexão
@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
 
-// Verifica se estamos carregando as disciplinas
+// Carregar disciplinas
 if (isset($_GET['loadDisciplinas']) && $_GET['loadDisciplinas'] === 'true') {
     $disciplinas = [];
     $sqlDisciplinas = "SELECT IDDisciplina, Nome FROM Disciplina";
@@ -25,9 +25,31 @@ if (isset($_GET['loadDisciplinas']) && $_GET['loadDisciplinas'] === 'true') {
         }
     }
     
-    echo json_encode($disciplinas); // Retorna as disciplinas em formato JSON
+    echo json_encode($disciplinas);
     $conn->close();
-    exit; // Encerra o script aqui para evitar que ele continue
+    exit;
+}
+
+// Carregar conteúdos de uma disciplina específica
+if (isset($_GET['disciplina_id'])) {
+    $disciplinaId = $_GET['disciplina_id'];
+    $conteudos = [];
+    $sqlConteudos = "SELECT conteudo.IDConteudo, conteudo.Nome
+                     FROM conteudo
+                     JOIN disciplinaConteudo ON conteudo.IDConteudo = disciplinaConteudo.IDConteudo
+                     WHERE disciplinaConteudo.IDDisciplina = ?";
+    $stmt = $conn->prepare($sqlConteudos);
+    $stmt->bind_param("i", $disciplinaId);
+    $stmt->execute();
+    $resultConteudos = $stmt->get_result();
+
+    while ($row = $resultConteudos->fetch_assoc()) {
+        $conteudos[] = $row;
+    }
+
+    echo json_encode($conteudos);
+    $conn->close();
+    exit;
 }
 
 // A partir deste ponto é a lógica de buscar professores com base nos filtros
