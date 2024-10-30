@@ -52,13 +52,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         }
 
-        // Se tudo estiver correto, o formulário será enviado e a página será redirecionada
-        const url = "paginaCatalogo.html?disciplina=" + encodeURIComponent(disciplina) + 
-        "&localidade=" + encodeURIComponent(localidade) + 
-        "&aulaOnline=" + aulaOnline;
+        // Se tudo estiver correto, armazena os dados no sessionStorage e redireciona
+        sessionStorage.setItem("disciplina", disciplina);
+        sessionStorage.setItem("localidade", localidade);
+        sessionStorage.setItem("aulaOnline", aulaOnline);
 
-        // Redireciona para a Página de Catálogo com os parâmetros da busca
-        window.location.href = url;
+        // Redireciona para a página de catálogo
+        window.location.href = "/Plataforma_DirectClass/03-PaginaCatalogo/paginaCatalogo.html";
+        return true;
     }
 
     // Adiciona o evento de clique no botão Buscar
