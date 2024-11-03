@@ -13,7 +13,7 @@ document.getElementById('formCadastro').addEventListener('submit', (event) => {
         return alert('Preencha todos os campos.');
     }
 
-    fetch('cadastroProfessor.php', {
+    fetch('cadastroAluno.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -28,4 +28,8 @@ document.getElementById('formCadastro').addEventListener('submit', (event) => {
         console.error('Erro na requisição:', error);
         alert('Ocorreu um erro ao tentar realizar o cadastro.');
     });
+});
+
+document.querySelector('.BotaoRedirecionamento').addEventListener('click', () => {
+    window.location.href = 'cadastroProfessor.html';
 });

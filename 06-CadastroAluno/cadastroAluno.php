@@ -20,7 +20,7 @@ $telefone = $_POST['telefone'] ?? '';
 $endereco = $_POST['endereco'] ?? '';
 $cpf = $_POST['cpf'] ?? '';
 $senha = $_POST['senha'] ?? '';
-$tipo_usuario = 'professor'; // Definindo como professor
+$tipo_usuario = 'aluno'; // Definindo como aluno
 
 // Verifica se email, CPF ou username já estão cadastrados
 $sqlCheck = "SELECT * FROM Pessoa WHERE Email = ? OR CPF = ? OR Username = ?";
@@ -33,7 +33,7 @@ if ($resultCheck->num_rows > 0) {
     die("Erro: Email, CPF ou Username já cadastrados.");
 }
 
-// Inserindo os dados
+// Inserindo os dados na tabela Pessoa
 $sql = "INSERT INTO Pessoa (Nome, Username, Email, Telefone, Endereco, CPF, Senha, TipoUsuario) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
@@ -49,6 +49,21 @@ $stmt->bind_param("ssssssss", $nome, $username, $email, $telefone, $endereco, $c
 // Executa a consulta e verifica o resultado
 if ($stmt->execute()) {
     echo "Cadastro realizado com sucesso!";
+
+    // Agora, insira o CPF na tabela Aluno
+    $sqlAluno = "INSERT INTO Aluno (CPF) VALUES (?)";
+    $stmtAluno = $conn->prepare($sqlAluno);
+    $stmtAluno->bind_param("s", $cpf);
+
+    // Executa a consulta para inserir na tabela Aluno
+    if ($stmtAluno->execute()) {
+        echo "";
+    } else {
+        echo "Erro ao cadastrar aluno: " . $stmtAluno->error;
+    }
+
+    // Fecha a declaração de Aluno
+    $stmtAluno->close();
 } else {
     echo "Erro ao cadastrar: " . $stmt->error;
 }
