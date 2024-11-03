@@ -13,22 +13,19 @@ document.getElementById('formCadastro').addEventListener('submit', (event) => {
         return alert('Preencha todos os campos.');
     }
 
-    fetch('cadastroAluno.php', {
+    fetch('cadastroProfessor.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `nome=${nome}&username=${username}&email=${email}&telefone=${telefone}&endereco=${endereco}&cpf=${cpf}&senha=${senha}`
+        body: `nome=${encodeURIComponent(nome)}&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&telefone=${encodeURIComponent(telefone)}&endereco=${encodeURIComponent(endereco)}&cpf=${encodeURIComponent(cpf)}&senha=${encodeURIComponent(senha)}`
     })
     .then(response => response.text())
     .then(data => {
-        alert(data === 'success' ? 'Cadastro realizado com sucesso!' : data);
+        alert(data); // Exibe a mensagem de sucesso ou erro vinda do PHP
     })
     .catch(error => {
         console.error('Erro na requisição:', error);
+        alert('Ocorreu um erro ao tentar realizar o cadastro.');
     });
-});
-
-document.querySelector('.BotaoRedirecionamento').addEventListener('click', () => {
-    window.location.href = 'cadastroProfessor.html';
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,55 +7,45 @@
     <link rel="stylesheet" href="cadastroProfessor.css">
 </head>
 <body>
-    <div id="container">
+    <div class="container">
         <br>
-        <h1>Bem-vindo ao menu de cadastro para Professores!</h1>
-        <h2>Para realizar o cadastro, preencha as seguintes informações:</h2>
-        <form class="cadastroPform">
-            <div class="nomeCompleto">
+        <h3 class="Mensagem2">Seja Bem-vindo(a) ao menu de cadastro!</h3>
+        <h3 class="Mensagem3">Para realizar seu cadastro, insira as seguintes informações:</h3>
+        <br>
+        <form id="formCadastro">
+            <div class="nome">
                 <label for="nome">Nome Completo:</label>
-                <input type="text" class="nome" name="nome" placeholder="Digite seu nome completo" required>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo (Nome e Sobrenome):" required>
             </div>
-            
-            <div class="username">
+            <div class="Username">
                 <label for="username">Username:</label>
-                <input type="text" class="username" name="username" placeholder="Digite seu usuário" required>
+                <input type="text" id="username" name="username" placeholder="Digite seu usuário:" required>
             </div>
-            
             <div class="email">
                 <label for="email">Email:</label>
-                <input type="email" class="email" name="email" placeholder="Digite seu email" required>
+                <input type="email" id="email" name="email" placeholder="Digite seu email (@.com):" required>
             </div>
-            
             <div class="telefone">
                 <label for="telefone">Telefone:</label>
-                <input type="tel" class="telefone" name="telefone" placeholder="Digite seu telefone" required>
+                <input type="tel" id="telefone" name="telefone" placeholder="Digite seu telefone de contato:" required>
             </div>
-
             <div class="endereco">
                 <label for="endereco">Endereço:</label>
-                <input type="text" class="endereco" name="endereco" placeholder="Digite seu endereço completo" required>
+                <input type="text" id="endereco" name="endereco" placeholder="Digite seu endereco:" required>
             </div>
-
             <div class="cpf">
                 <label for="cpf">CPF:</label>
-                <input type="text" class="cpf" name="cpf" placeholder="Digite seu CPF" required>
+                <input type="text" id="cpf" name="cpf" minlength="11" maxlength="11" pattern="\d{11}" title="O CPF deve conter 11 dígitos numéricos" placeholder="Digite seu CPF (000.000.000-00):" required>
             </div>
-                
-            <div class="insert">
-                <label for="insert">Insira aqui seu currículo:</label>
-                <input type="file" class="insert" name="insert">
-            </div>
-
             <div class="senha">
-                <label for="senha">Insira sua senha:</label>
-                <input type="password" class="senha" name="senha" required>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha:" required>
             </div>
-
-            <br>
-            <button type="submit" class="envio">Cadastrar</button>
+            <button type="submit" id="BotaoEnvio" class="BotaoEnvio">Cadastrar</button>
         </form>
     </div>
+    <div class="teste">
+    </div>
+    <script src="cadastroProfessor.js"></script>
 </body>
-<script src="cadastroProfessor.js"></script>
 </html>
