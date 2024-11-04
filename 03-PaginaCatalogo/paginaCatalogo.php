@@ -52,80 +52,85 @@ if (isset($_GET['disciplina_id'])) {
     exit;
 }
 
-// A partir deste ponto é a lógica de buscar professores com base nos filtros
-$disciplina = isset($_GET['disciplina']) ? $_GET['disciplina'] : '';
-$localidade = isset($_GET['localidade']) ? $_GET['localidade'] : '';
-$aulaOnline = isset($_GET['aulaOnline']) && $_GET['aulaOnline'] == 'true';
-$precoMin = isset($_GET['precoMin']) ? $_GET['precoMin'] : '';
-$precoMax = isset($_GET['precoMax']) ? $_GET['precoMax'] : '';
-$horarioInicio = isset($_GET['horarioInicio']) ? $_GET['horarioInicio'] : '';
-$horarioFim = isset($_GET['horarioFim']) ? $_GET['horarioFim'] : '';
-$diasSemana = isset($_GET['diasSemana']) ? explode(',', $_GET['diasSemana']) : [];
+// Carregar professores com base nos filtros
+if (isset($_GET['disciplina']) && !empty($_GET['disciplina'])) {
+    $disciplina = $_GET['disciplina'];
+    $localidade = isset($_GET['localidade']) ? $_GET['localidade'] : '';
+    $aulaOnline = isset($_GET['aulaOnline']) && $_GET['aulaOnline'] == 'true';
+    $precoMin = isset($_GET['precoMin']) ? $_GET['precoMin'] : '';
+    $precoMax = isset($_GET['precoMax']) ? $_GET['precoMax'] : '';
+    $horarioInicio = isset($_GET['horarioInicio']) ? $_GET['horarioInicio'] : '';
+    $horarioFim = isset($_GET['horarioFim']) ? $_GET['horarioFim'] : '';
+    $diasSemana = isset($_GET['diasSemana']) ? explode(',', $_GET['diasSemana']) : [];
 
-// Montando a consulta SQL para buscar professores filtrados
-$sql = "SELECT Professor.*, Disciplina.Nome AS DisciplinaNome
-        FROM Professor
-        JOIN ProfessorDisciplina ON Professor.IDProfessor = ProfessorDisciplina.IDProfessor
-        JOIN Disciplina ON ProfessorDisciplina.IDDisciplina = Disciplina.IDDisciplina
-        WHERE 1=1";
+    // Consulta para buscar professores filtrados
+    $sql = "SELECT Professor.*, Disciplina.Nome AS DisciplinaNome
+            FROM Professor
+            JOIN ProfessorDisciplina ON Professor.IDProfessor = ProfessorDisciplina.IDProfessor
+            JOIN Disciplina ON ProfessorDisciplina.IDDisciplina = Disciplina.IDDisciplina
+            WHERE Disciplina.IDDisciplina = ?";
 
-// Filtros
-if (!empty($disciplina)) {
-    $sql .= " AND Disciplina.IDDisciplina = '$disciplina'";
-}
+    // Array para parâmetros de filtragem
+    $params = ["i", $disciplina];
 
-if (!empty($localidade) && !$aulaOnline) {
-    $sql .= " AND Professor.Localidade = '$localidade'";
-}
-
-if ($aulaOnline) {
-    $sql .= " AND Professor.AulaOnline = 1";
-}
-
-if (!empty($precoMin)) {
-    $sql .= " AND Professor.PrecoHora >= '$precoMin'";
-}
-
-if (!empty($precoMax)) {
-    $sql .= " AND Professor.PrecoHora <= '$precoMax'";
-}
-
-if (!empty($horarioInicio)) {
-    $sql .= " AND Professor.HorarioInicio >= '$horarioInicio'";
-}
-
-if (!empty($horarioFim)) {
-    $sql .= " AND Professor.HorarioFim <= '$horarioFim'";
-}
-
-if (!empty($diasSemana)) {
-    $diasFiltrados = implode("', '", $diasSemana);
-    $sql .= " AND Disponibilidade.DiaSemana IN ('$diasFiltrados')";
-}
-
-// Executando a consulta
-$result = $conn->query($sql);
-
-// Buscando as disciplinas para preencher no HTML
-$disciplinas = [];
-$sqlDisciplinas = "SELECT IDDisciplina, Nome FROM Disciplina";
-$resultDisciplinas = $conn->query($sqlDisciplinas);
-
-if ($resultDisciplinas->num_rows > 0) {
-    while ($row = $resultDisciplinas->fetch_assoc()) {
-        $disciplinas[] = $row;
+    // Filtros opcionais
+    if (!empty($localidade) && !$aulaOnline) {
+        $sql .= " AND Professor.Localidade = ?";
+        $params[0] .= "s"; // Tipo de dado é string
+        $params[] = $localidade;
     }
-}
 
-// Retorna o resultado como JSON para ser consumido pelo JavaScript (AJAX)
-$professores = [];
-if ($result->num_rows > 0) {
+    if ($aulaOnline) {
+        $sql .= " AND Professor.AulaOnline = 1";
+    }
+
+    if (!empty($precoMin)) {
+        $sql .= " AND Professor.PrecoHora >= ?";
+        $params[0] .= "d"; // Tipo de dado é decimal
+        $params[] = $precoMin;
+    }
+
+    if (!empty($precoMax)) {
+        $sql .= " AND Professor.PrecoHora <= ?";
+        $params[0] .= "d";
+        $params[] = $precoMax;
+    }
+
+    if (!empty($horarioInicio)) {
+        $sql .= " AND Professor.HorarioInicio >= ?";
+        $params[0] .= "s";
+        $params[] = $horarioInicio;
+    }
+
+    if (!empty($horarioFim)) {
+        $sql .= " AND Professor.HorarioFim <= ?";
+        $params[0] .= "s";
+        $params[] = $horarioFim;
+    }
+
+    if (!empty($diasSemana)) {
+        $diasFiltrados = implode("', '", $diasSemana);
+        $sql .= " AND Disponibilidade.DiaSemana IN ('$diasFiltrados')";
+    }
+
+    // Preparando a consulta com os filtros
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param(...$params);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Recuperando os dados dos professores
+    $professores = [];
     while ($row = $result->fetch_assoc()) {
         $professores[] = $row;
     }
-}
-echo json_encode($professores);
 
-// Fechar a conexão
+    // Retornando os dados em JSON
+    echo json_encode($professores);
+    $conn->close();
+    exit;
+}
+
+// Fechar a conexão caso não haja outro encerramento acima
 $conn->close();
 ?>
