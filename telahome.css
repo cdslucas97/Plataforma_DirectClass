@@ -29,6 +29,8 @@ header nav ul li a {
 
 main {
     padding: 20px;
+    min-height: calc(100vh - 80px); /* Ajuste para rodapé fixo */
+    box-sizing: border-box;
 }
 
 .dashboard {
@@ -37,8 +39,10 @@ main {
 
 .cards {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap; /* Permite que as cartas se ajustem em telas menores */
+    justify-content: center;
     margin-top: 20px;
+    gap: 20px;
 }
 
 .card {
@@ -46,7 +50,9 @@ main {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 30%;
+    width: 100%;
+    max-width: 300px; /* Limita a largura máxima das cartas */
+    box-sizing: border-box;
 }
 
 .card h3 {
@@ -77,7 +83,8 @@ footer {
     color: white;
     text-align: center;
     padding: 10px;
-    position: absolute;
-    bottom: 0;
     width: 100%;
+    position: relative; /* Ajusta o rodapé */
+    box-sizing: border-box;
+    bottom: 0;
 }

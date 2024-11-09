@@ -53,14 +53,14 @@ input {
 }
 
 input:focus {
-    border-color: #a550af;
+    border-color: #4CAF50;
     outline: none; 
 }
 
 .BotaoEnvio {
     width: 100%;
     padding: 12px;
-    background-color: #a550af;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
@@ -79,7 +79,7 @@ input:focus {
 }
 
 .BotaoRedirecionamento {
-    background-color: #a550af;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
