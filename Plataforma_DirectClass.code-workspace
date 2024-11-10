@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../Plataforma_DirectClass"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "teste"
+	}
+}

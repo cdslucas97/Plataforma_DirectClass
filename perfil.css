@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Faz com que o body ocupe pelo menos a altura total da tela */
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    flex: 1; /* Faz o main ocupar o espaço restante da tela */
+    padding: 30px;
+}
+
+.perfil {
+    text-align: center;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.foto-perfil {
+    width: 150px; /* Aumentando o tamanho da foto */
+    height: 150px; /* Aumentando o tamanho da foto */
+    border-radius: 75px; /* Para um formato circular */
+    margin-right: 30px;
+}
+
+.detalhes {
+    text-align: left;
+    font-size: 18px; /* Aumentando o tamanho da fonte dos detalhes */
+}
+
+.detalhes p {
+    margin: 10px 0; /* Aumentando o espaçamento entre os detalhes */
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed; /* Deixa o footer fixo na parte inferior */
+    bottom: 0;
+    width: 100%; /* Faz o footer ocupar toda a largura da tela */
+}

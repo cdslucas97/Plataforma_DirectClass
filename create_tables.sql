@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Pessoa (
     Email VARCHAR(100),
     Senha VARCHAR(100),
     Endereco VARCHAR(50),
-    Cargo ENUM('aluno', 'professor')
+    TipoUsuario ENUM('Aluno', 'Professor', 'Admin')
 );
 
 CREATE TABLE IF NOT EXISTS Aluno (

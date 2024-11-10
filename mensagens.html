@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sistema de Mensagens</title>
+    <link rel="stylesheet" href="mensagens.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
-    <header>
-        <div class="logo-button">
-            <a href="homepage.html" class="btn-logo">DirectClass</a>
-        </div>
-        <div class="login-button">
-            <a href="login.html" class="btn-login">Login</a>
-        </div>
-    </header>
 
+<div class="container">
+    <h2>Sistema de Mensagens</h2>
+    <form id="mensagemForm">
+        <input type="text" id="destinatarioCpf" placeholder="CPF do destinatário" required>
+        <textarea id="conteudo" placeholder="Digite sua mensagem" required></textarea>
+        <button type="submit">Enviar Mensagem</button>
+    </form>
 
+    <h3>Mensagens Recebidas:</h3>
+    <div id="mensagensList"></div>
+</div>
 
+<script src="mensagens.js"></script>
 </body>
 </html>
