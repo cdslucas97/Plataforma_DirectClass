@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definir Disponibilidade do Professor</title>
+    <link rel="stylesheet" href="disponibilidade.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Definir Disponibilidade</h2>
+        <form id="form-disponibilidade" action="salvar_disponibilidade.php" method="POST">
+            <label for="diaSemana">Dia da Semana:</label>
+            <select name="diaSemana" id="diaSemana" required>
+                <option value="segunda">Segunda-feira</option>
+                <option value="terca">Terça-feira</option>
+                <option value="quarta">Quarta-feira</option>
+                <option value="quinta">Quinta-feira</option>
+                <option value="sexta">Sexta-feira</option>
+            </select>
+
+            <label for="horarioInicio">Horário de Início:</label>
+            <input type="time" name="horarioInicio" id="horarioInicio" required>
+
+            <label for="horarioFim">Horário de Término:</label>
+            <input type="time" name="horarioFim" id="horarioFim" required>
+
+            <button type="submit">Salvar Disponibilidade</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

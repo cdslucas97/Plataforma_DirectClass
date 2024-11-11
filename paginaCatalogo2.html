@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - DirectClass</title>
+    <link rel="stylesheet" href="paginaCatalogo2.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo-button">
+            <a href="telahome.html" class="btn-logo">DirectClass</a>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="catalog-container">
+        <aside class="filter-sidebar">
+            <h3>Filtros</h3>
+
+            <!-- Filtro de Disciplina -->
+            <label for="disciplina">Disciplina:</label>
+            <select id="disciplina" name="disciplina" required>
+                <option value="">Selecione uma disciplina</option>
+            </select>
+        </aside>
+
+        <!-- Lista de Professores -->
+        <section class="professor-list">
+            <h2>Professores Disponíveis</h2>
+            <div id="professor-container">
+                <!-- Aqui será carregada a lista de professores via JS -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Link para o arquivo JavaScript -->
+    <script src="paginaCatalogo2.js"></script>
+</body>
+</html>

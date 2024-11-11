@@ -33,28 +33,50 @@ if ($resultCheck->num_rows > 0) {
     die("Erro: Email, CPF ou Username já cadastrados.");
 }
 
-// Inserindo os dados
-$sql = "INSERT INTO Pessoa (Nome, Username, Email, Telefone, Endereco, CPF, Senha, TipoUsuario) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
+// Inserindo os dados na tabela Pessoa
+$sqlPessoa = "INSERT INTO Pessoa (Nome, Username, Email, Telefone, Endereco, CPF, Senha, TipoUsuario) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+$stmtPessoa = $conn->prepare($sqlPessoa);
 
 // Verifica se a preparação foi bem-sucedida
-if ($stmt === false) {
+if ($stmtPessoa === false) {
     die("Erro na preparação: " . $conn->error);
 }
 
 // Vincula os parâmetros à consulta
-$stmt->bind_param("ssssssss", $nome, $username, $email, $telefone, $endereco, $cpf, $senha, $tipo_usuario);
+$stmtPessoa->bind_param("ssssssss", $nome, $username, $email, $telefone, $endereco, $cpf, $senha, $tipo_usuario);
 
 // Executa a consulta e verifica o resultado
-if ($stmt->execute()) {
-    echo "Cadastro realizado com sucesso!";
+if ($stmtPessoa->execute()) {
+    // Recuperando o ID da Pessoa inserida
+    $idPessoa = $stmtPessoa->insert_id;
+
+    // Agora, inserindo na tabela Professor
+    $sqlProfessor = "INSERT INTO Professor (CPF) VALUES (?)";
+    $stmtProfessor = $conn->prepare($sqlProfessor);
+
+    if ($stmtProfessor === false) {
+        die("Erro na preparação do professor: " . $conn->error);
+    }
+
+    // Vincula os parâmetros à consulta
+    $stmtProfessor->bind_param("is", $idPessoa, $cpf);
+
+    // Executa a consulta para inserir o CPF na tabela Professor
+    if ($stmtProfessor->execute()) {
+        echo "Cadastro realizado com sucesso!";
+    } else {
+        echo "Erro ao cadastrar no Professor: " . $stmtProfessor->error;
+    }
+
+    // Fecha a conexão da tabela Professor
+    $stmtProfessor->close();
 } else {
-    echo "Erro ao cadastrar: " . $stmt->error;
+    echo "Erro ao cadastrar na Pessoa: " . $stmtPessoa->error;
 }
 
 // Fecha as conexões
 $stmtCheck->close();
-$stmt->close();
+$stmtPessoa->close();
 $conn->close();
 ?>

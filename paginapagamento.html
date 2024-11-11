@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - DirectClass</title>
+    <title>pagina de pagamento</title>
+    <link rel="stylesheet" href="paginapagamento.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo-button">
+            <a href="homepage.html" class="btn-logo">DirectClass</a>
+        </div>
+        <div class="login-button">
+            <a href="login.html" class="btn-login">Login</a>
+        </div>
+    </header>
+    <!-- Countéudo Principal -->
+    <div id="pagamentocontainer">
+        <br>
+        <h1>Pagamento com cartão de credito</h1>
+        <form class="formadepagamento">
+            <div class="numerocartao">
+                <label for="numero">Número do Cartão:</label>
+                <input type="text" class="numero" name="numero" placeholder="Número do Cartão">
+            </div>
+            <div class="datadeexpiracao">
+                <label for="datadeexpiracao">Data de Expiração do Cartão (MM/AA):</label>
+                <input type="text" class="datadeexpiracao" name="datadeexpiracao" placeholder="Data de Expiração do Cartão(MM/AA)">
+            </div>
+            <div class="codigo de segurança">
+                <label for="cvv">Codigo de segurança(CVV):</label>
+                <input type="text" class="cvv" name="cvv" placeholder="Codigo de segurança(CVV)">
+            </div>
+            <br>
+            <button type="submit" class="pagar">Finalizar Pagamento</button>
+        </form>
+    </div>
+</body>
+<script src="paginapagamento.js"></script>
+</html>

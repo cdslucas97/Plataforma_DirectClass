@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Pessoa (
     Email VARCHAR(100),
     Senha VARCHAR(100),
     Endereco VARCHAR(50),
-    TipoUsuario ENUM('Aluno', 'Professor', 'Admin')
+    TipoUsuario ENUM('aluno', 'professor', 'admin')
 );
 
 CREATE TABLE IF NOT EXISTS Aluno (
@@ -20,6 +20,13 @@ CREATE TABLE IF NOT EXISTS Aluno (
 
 CREATE TABLE IF NOT EXISTS Professor (
     IDProfessor INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(255),
+    HorarioInicio TIME,
+    HorarioFim TIME,
+    PrecoHora DECIMAL(10, 2),
+    Localidade VARCHAR(255),
+    AulaOnline ENUM('Sim', 'Não'),
+    DisciplinaID INT,
     CPF VARCHAR(11),
     FOREIGN KEY (CPF) REFERENCES Pessoa(CPF)
 );

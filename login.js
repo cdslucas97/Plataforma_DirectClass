@@ -20,7 +20,7 @@ document.getElementById('loginButton').addEventListener('click', () => {
             if (userType === 'aluno') {
                 window.location.href = 'telahome.html'; // Redireciona para a tela do aluno
             } else if (userType === 'professor') {
-                window.location.href = 'telahome.html'; // Redireciona para a tela do professor
+                window.location.href = 'telahomeP.html'; // Redireciona para a tela do professor
             } else {
                 alert('Tipo de usuário desconhecido.');
             }

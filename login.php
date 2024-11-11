@@ -24,7 +24,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $tipoUsuario = $row['TipoUsuario'];
+    $tipoUsuario = strtolower($row['TipoUsuario']);  // Converte para letras minúsculas
     
     // Armazenar o CPF na sessão
     $_SESSION['cpf_pessoa'] = $row['CPF'];
@@ -33,6 +33,7 @@ if ($result->num_rows > 0) {
 } else {
     echo 'error';
 }
+
 
 $stmt->close();
 $conn->close();
