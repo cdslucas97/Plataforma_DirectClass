@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (disciplinaId) {
             // Carregar professores para a disciplina selecionada
-            fetch("paginaCatalogo2.php?disciplinaId=" + disciplinaId)
+            fetch(`paginaCatalogo2.php?disciplinaId=${disciplinaId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erro ao buscar professores: ' + response.status);
